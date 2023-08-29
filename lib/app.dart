@@ -14,6 +14,7 @@ class MyTodoApp extends StatelessWidget {
       stream: homeCubit.stream,
       builder: (context, state) {
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           theme: ThemeData.light(useMaterial3: true),
           darkTheme: ThemeData.dark(useMaterial3: true),
           themeMode: homeCubit.state.mode,
