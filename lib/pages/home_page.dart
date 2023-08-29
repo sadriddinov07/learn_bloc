@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
             detailCubit.state is DetailCreateSuccess) {
           homeCubit.fetchTodos();
         }
-        if (state is DetailDeleteSuccess) {
+        if (state is DetailUpdateSuccess) {
           homeCubit.fetchTodos();
         }
       },

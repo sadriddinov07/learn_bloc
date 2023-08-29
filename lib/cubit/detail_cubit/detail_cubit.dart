@@ -52,7 +52,7 @@ class DetailCubit extends Cubit<DetailState> {
         todo.description = description;
       }
       await sql.update(todo);
-      emit(DetailCreateSuccess());
+      emit(DetailUpdateSuccess());
     } catch (e) {
       debugPrint("Error: $e");
       emit(DetailFailure(message: "DETAIL ERROR:$e"));
@@ -66,7 +66,7 @@ class DetailCubit extends Cubit<DetailState> {
     await sql.update(todo);
     emit(DetailLoading());
     emit(
-      DetailCreateSuccess(),
+      DetailUpdateSuccess(),
     );
   }
 }
