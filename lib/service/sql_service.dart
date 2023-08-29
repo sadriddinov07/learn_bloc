@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:learn_bloc/model/todo_model.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -10,15 +8,13 @@ class SQLService {
 
   Future<void> open(String path) async {
     db = await openDatabase(path, version: 1);
-    if(!db.isOpen && Platform.isAndroid) {
-      await db.execute('''
-create table TODO ( 
+    await db.execute('''
+create table if not exists TODO ( 
   id integer primary key autoincrement, 
   title text not null,
   description text not null,
   isCompleted integer not null)
 ''');
-    }
   }
 
   Future<Todo> insert(Todo todo) async {
@@ -31,13 +27,13 @@ create table TODO (
   }
 
   Future<int> update(Todo todo) async {
-    return await db.update(tableTodo, todo.toJson(), where: 'id = ?', whereArgs: [todo.id]);
+    return await db.update(tableTodo, todo.toJson(),
+        where: 'id = ?', whereArgs: [todo.id]);
   }
 
   Future<Todo?> getTodo(int id) async {
-    List<Map> maps = await db.query(tableTodo,
-        where: 'id = ?',
-        whereArgs: [id]);
+    List<Map> maps =
+        await db.query(tableTodo, where: 'id = ?', whereArgs: [id]);
     if (maps.isNotEmpty) {
       return Todo.fromJson(Map<String, Object>.from(maps.first));
     }
@@ -46,6 +42,8 @@ create table TODO (
 
   Future<List<Todo>> todos() async {
     List<Map> maps = await db.query(tableTodo);
-    return maps.map((json) => Todo.fromJson(Map<String, Object>.from(json))).toList();
+    return maps
+        .map((json) => Todo.fromJson(Map<String, Object>.from(json)))
+        .toList();
   }
 }
