@@ -1,0 +1,33 @@
+name: learn_bloc
+description: Project for Bloc
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.1.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.2
+  bloc: ^8.1.2
+  sqflite: ^2.3.0
+  path: ^1.8.3
+  meta: ^1.9.1
+  easy_localization: ^3.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+
+flutter:
+
+  uses-material-design: true
+
+  assets:
+    - assets/languages/
