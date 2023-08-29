@@ -18,12 +18,17 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     homeCubit.fetchTodos();
 
-    detailCubit.stream.listen((state) {
-      if (state is DetailDeleteSuccess ||
-          detailCubit.state is DetailCreateSuccess) {
-        homeCubit.fetchTodos();
-      }
-    });
+    detailCubit.stream.listen(
+      (state) {
+        if (state is DetailDeleteSuccess ||
+            detailCubit.state is DetailCreateSuccess) {
+          homeCubit.fetchTodos();
+        }
+        if (state is DetailDeleteSuccess) {
+          homeCubit.fetchTodos();
+        }
+      },
+    );
   }
 
   @override
@@ -89,17 +94,12 @@ class _HomePageState extends State<HomePage> {
                     },
                     leading: IconButton(
                       onPressed: () {
-                        homeCubit.changeComplete(item.id);
+                        detailCubit.changeComplete(item.id);
                       },
-                      icon: StreamBuilder(
-                        initialData: homeCubit.state,
-                        stream: homeCubit.stream,
-                        builder: (context, state) {
-                          return Icon(
-                            item.isCompleted
-                                ? Icons.check_box_outlined
-                                : Icons.check_box_outline_blank,
-                          );
+                      icon: Checkbox(
+                        value: item.isCompleted,
+                        onChanged: (bool? value) {
+                          detailCubit.changeComplete(item.id);
                         },
                       ),
                     ),

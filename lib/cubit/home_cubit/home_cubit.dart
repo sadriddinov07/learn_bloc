@@ -28,19 +28,6 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
-  void changeComplete(int id) async {
-    final todo =
-        homeCubit.state.todos.where((element) => element.id == id).first;
-    todo.isCompleted = !todo.isCompleted;
-    await sql.update(todo);
-    emit(
-      HomeFetchSuccess(
-        todos: state.todos,
-        mode: state.mode,
-      ),
-    );
-  }
-
   void changeMode() {
     try {
       emit(

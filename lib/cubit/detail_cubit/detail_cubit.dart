@@ -58,4 +58,15 @@ class DetailCubit extends Cubit<DetailState> {
       emit(DetailFailure(message: "DETAIL ERROR:$e"));
     }
   }
+
+  void changeComplete(int id) async {
+    final todo =
+        homeCubit.state.todos.where((element) => element.id == id).first;
+    todo.isCompleted = !todo.isCompleted;
+    await sql.update(todo);
+    emit(DetailLoading());
+    emit(
+      DetailCreateSuccess(),
+    );
+  }
 }
